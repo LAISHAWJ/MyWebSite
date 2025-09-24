@@ -23,7 +23,7 @@ namespace MyWebsite.Infrastructure.Repositories
             using (var conn = new SqlConnection(_connectionString)) 
             {
                 conn.Open();
-                return conn.Query<T>($"SELECT * FROM {typeof(T).Name}s"); // Asume nombres de tablas plurales
+                return conn.Query<T>($"SELECT * FROM {typeof(T).Name}"); 
             }
         }
     }
