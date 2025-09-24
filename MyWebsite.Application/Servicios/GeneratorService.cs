@@ -54,8 +54,8 @@ namespace MyWebsite.Application.Servicios
                 Handlebars.RegisterTemplate("navigation", File.ReadAllText("Templates/navigation.hbs"));
 
                 var personalList = _personalRepo.GetAll();
+                Console.WriteLine($"Personal count: {personalList.Count()}"); // Depuración
                 var personal = personalList.FirstOrDefault() ?? throw new Exception("No personal info found");
-                _personalValidator.ValidateAndThrow(personal);
 
                 var genealogy = _genealogyRepo.GetAll();
                 var hobbies = _hobbyRepo.GetAll();
