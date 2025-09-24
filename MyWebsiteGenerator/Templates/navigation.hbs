@@ -1,17 +1,29 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./pages/about.html">Mi Sitio</a>
-        <div class="navbar-nav">
-            <a class="nav-link {{^isAbout}}text-white{{/isAbout}}{{#isAbout}}active text-yellow{{/isAbout}}"
-               href="./pages/about.html" {{#isAbout}} aria-current="page" {{/isAbout}}>Sobre Mí</a>
-            <a class="nav-link {{^isHobbies}}text-white{{/isHobbies}}{{#isHobbies}}active text-yellow{{/isHobbies}}"
-               href="./pages/hobbies.html" {{#isHobbies}} aria-current="page" {{/isHobbies}}>Pasatiempos</a>
-            <a class="nav-link {{^isYouTubers}}text-white{{/isYouTubers}}{{#isYouTubers}}active text-yellow{{/isYouTubers}}"
-               href="./pages/youtubers.html" {{#isYouTubers}} aria-current="page" {{/isYouTubers}}>YouTubers</a>
-            <a class="nav-link {{^isSeries}}text-white{{/isSeries}}{{#isSeries}}active text-yellow{{/isSeries}}"
-               href="./pages/series.html" {{#isSeries}} aria-current="page" {{/isSeries}}>Series</a>
-            <a class="nav-link {{^isContact}}text-white{{/isContact}}{{#isContact}}active text-yellow{{/isContact}}"
-               href="./pages/contact.html" {{#isContact}} aria-current="page" {{/isContact}}>Contacto</a>
+        <a class="navbar-brand" href="/pages/about.html">Mi Sitio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {{#if isAbout}}active{{/if}}" href="/pages/about.html">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{#if isHobbies}}active{{/if}}" href="/pages/hobbies.html">Pasatiempos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{#if isYouTubers}}active{{/if}}" href="/pages/youtubers.html">YouTubers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{#if isSeries}}active{{/if}}" href="/pages/series.html">Series</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{#if isContact}}active{{/if}}" href="/pages/contact.html">Contacto</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

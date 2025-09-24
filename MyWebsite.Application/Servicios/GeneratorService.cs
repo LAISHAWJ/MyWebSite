@@ -154,86 +154,74 @@ namespace MyWebsite.Application.Servicios
         private string GetCssContent()
         {
             return @"
-        /* Importar Bootstrap (CDN) */
-        @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+                /* Bootstrap CDN ya incluido en head */
+                 body {
+                font-family: 'Roboto', sans-serif;
+                  background-color: #f0f4f8;
+                    color: #333;
+                margin: 0;
+                padding: 0;
+                }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
+                .navbar {
+                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    }
 
-        /* Estilo de la navegación */
-        .navbar {
-            padding: 1rem;
-        }
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .nav-link {
-            color: #fff !important;
-            transition: color 0.3s ease;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #ffc107 !important; /* Amarillo Bootstrap */
-            font-weight: 500;
-        }
+                .nav-link {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+                transition: background-color 0.3s, color 0.3s;
+                }
 
-        /* Contenido general */
-        .container {
-            margin-top: 20px;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+                .nav-link:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                }
 
-        /* Timeline */
-        .timeline {
-            border-left: 4px solid #007bff;
-            padding-left: 20px;
-            position: relative;
-        }
-        .timeline-item {
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #f1f1f1;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .timeline-item:hover {
-            background: #e9ecef;
-        }
+                .nav-link.active {
+                background-color: #ffc107;
+                color: #333 !important;
+                border-radius: 5px;
+                }
 
-        /* Galería */
-        .gallery img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin: 5px;
-            transition: transform 0.3s ease;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
+                .container {
+                max-width: 1200px;
+                margin: 20px auto;
+                padding: 20px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                }
 
-        /* Footer (opcional, si lo añades) */
-        .footer {
-            margin-top: 20px;
-            padding: 10px;
-            text-align: center;
-            background: #333;
-            color: #fff;
-        }
-    ";
-        }
+                h1, h2 {
+                color: #007bff;
+                }
 
+                .timeline-item {
+                transition: transform 0.3s;
+                }
 
+                .timeline-item:hover {
+                transform: scale(1.05);
+                }
+
+                .gallery img {
+                border: 2px solid #ddd;
+                border-radius: 5px;
+                transition: transform 0.3s;
+                }
+
+                .gallery img:hover {
+                transform: scale(1.1);
+                }
+
+                /* Responsivo */
+                @media (max-width: 768px) {
+                .gallery img {
+                    width: 100%;
+                }
+             }
+             ";
+        }
 
         private string GetJsContent()
         {
