@@ -1,0 +1,143 @@
+﻿/* ===== Reset y base ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fdf6f7; /* Rosa muy claro */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    background: linear-gradient(90deg, #d395d8, #e0b4c8); /* Degradado pastel */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+    .nav-link:hover {
+        background: rgba(255,255,255,0.25);
+        border-radius: 8px;
+    }
+
+    .nav-link.active {
+        background: #e0b4c8;
+        color: #fff !important;
+        border-radius: 8px;
+    }
+
+/* ===== Contenedor principal ===== */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* ===== Secciones de la página "Sobre mí" ===== */
+.profile-hero {
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 5px solid #e0b4c8;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.genealogy-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid #d395d8;
+}
+
+h1, h2, h3 {
+    color: #c7889f; /* Rosa oscuro */
+    font-weight: 600;
+}
+
+p {
+    color: #666;
+}
+
+/* ===== Línea de tiempo moderna ===== */
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    width: 2px;
+    background-color: #e0b4c8;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-item-modern {
+    position: relative;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: transparent;
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #c7889f;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    z-index: 10;
+}
+
+.timeline-item-modern:nth-child(odd) .timeline-content {
+    text-align: right;
+    margin-right: 50%;
+}
+
+.timeline-item-modern:nth-child(even) .timeline-content {
+    text-align: left;
+    margin-left: 50%;
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+.selected-item {
+    background: #fdf6f7;
+    box-shadow: 0 4px 15px rgba(224, 180, 200, 0.5);
+    border: 2px solid #c7889f;
+    transform: translateY(-5px) scale(1.02);
+}

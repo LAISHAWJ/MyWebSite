@@ -12,5 +12,6 @@ namespace MyWebsite.Core.Entidades
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string FechaNacimiento { get; set; }
+        public string FotoUrl { get; set; } 
     }
 }
