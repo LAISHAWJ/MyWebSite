@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using HandlebarsDotNet;
-using MyWebsite.Core.Entidades;
+using MyWebsite.Core.Entidades; 
 using MyWebsite.Core.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace MyWebsite.Application.Servicios
 {
@@ -51,7 +51,9 @@ namespace MyWebsite.Application.Servicios
                 Directory.CreateDirectory(Path.Combine(outputDir, "assets/js"));
                 Directory.CreateDirectory(Path.Combine(outputDir, "data"));
 
-                Handlebars.RegisterTemplate("navigation", File.ReadAllText("Templates/navigation.hbs"));
+                // Ajustar la ruta base para los templates
+                string basePath = @"C:\Usuarios\laish\OneDrive\Documentos\UCE\CUATRIMESTRES 2024-2025\SEP-DIC 2025 UCE\Técnologías del Internet II\MyWebSite\MyWebsiteGenerator\Templates";
+                Handlebars.RegisterTemplate("navigation", File.ReadAllText(Path.Combine(basePath, "navigation.hbs")));
 
                 var personalList = _personalRepo.GetAll();
                 Console.WriteLine($"Personal count: {personalList.Count()}"); // Depuración
@@ -59,30 +61,30 @@ namespace MyWebsite.Application.Servicios
 
                 var genealogy = _genealogyRepo.GetAll();
                 var hobbies = _hobbyRepo.GetAll();
-                var youtubers = _youTuberRepo.GetAll().ToList(); // ToList para modificar LogoUrl
+                var youtubers = _youTuberRepo.GetAll().ToList();
                 var series = _serieRepo.GetAll();
                 var socialLinks = _socialLinkRepo.GetAll();
 
                 DownloadImages(youtubers, outputDir);
 
                 var dataAbout = new { personal.Nombre, personal.Apellido, personal.FechaNacimiento, Genealogy = genealogy, isAbout = true };
-                File.WriteAllText(Path.Combine(outputDir, "pages/about.html"), RenderTemplate("about", dataAbout));
+                File.WriteAllText(Path.Combine(outputDir, "pages/about.html"), RenderTemplate("about", dataAbout, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/about.json"), JsonConvert.SerializeObject(dataAbout));
 
                 var dataHobbies = new { Hobbies = hobbies.Select(h => new { h.ID, h.Nombre, h.Descripcion, Imagenes = JsonConvert.DeserializeObject<List<string>>(h.Imagenes) }), isHobbies = true };
-                File.WriteAllText(Path.Combine(outputDir, "pages/hobbies.html"), RenderTemplate("hobbies", dataHobbies));
+                File.WriteAllText(Path.Combine(outputDir, "pages/hobbies.html"), RenderTemplate("hobbies", dataHobbies, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/hobbies.json"), JsonConvert.SerializeObject(dataHobbies));
 
                 var dataYouTubers = new { YouTubers = youtubers, isYouTubers = true };
-                File.WriteAllText(Path.Combine(outputDir, "pages/youtubers.html"), RenderTemplate("youtubers", dataYouTubers));
+                File.WriteAllText(Path.Combine(outputDir, "pages/youtubers.html"), RenderTemplate("youtubers", dataYouTubers, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/youtubers.json"), JsonConvert.SerializeObject(dataYouTubers));
 
                 var dataSeries = new { Series = series, isSeries = true };
-                File.WriteAllText(Path.Combine(outputDir, "pages/series.html"), RenderTemplate("series", dataSeries));
+                File.WriteAllText(Path.Combine(outputDir, "pages/series.html"), RenderTemplate("series", dataSeries, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/series.json"), JsonConvert.SerializeObject(dataSeries));
 
                 var dataContact = new { SocialLinks = socialLinks, isContact = true };
-                File.WriteAllText(Path.Combine(outputDir, "pages/contact.html"), RenderTemplate("contact", dataContact));
+                File.WriteAllText(Path.Combine(outputDir, "pages/contact.html"), RenderTemplate("contact", dataContact, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/contact.json"), JsonConvert.SerializeObject(dataContact));
 
                 File.WriteAllText(Path.Combine(outputDir, "assets/css/styles.css"), GetCssContent());
@@ -90,13 +92,26 @@ namespace MyWebsite.Application.Servicios
             }
             catch (Exception ex)
             {
-                var currentDateTime = DateTime.Now; // 02:55 AM AST, 24 Sep 2025
+                var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+                Directory.CreateDirectory(logDir);
+                var logPath = Path.Combine(logDir, "log.txt");
+                var currentDateTime = DateTime.Now;
                 Console.WriteLine($"Error amigable a las {currentDateTime:HH:mm:ss} el {currentDateTime:dd/MM/yyyy}: {ex.Message}");
-                File.AppendAllText("log.txt", $"{currentDateTime:yyyy-MM-dd HH:mm:ss}: {ex.Message}\n{ex.StackTrace}\n");
+                File.AppendAllText(logPath, $"{currentDateTime:yyyy-MM-dd HH:mm:ss}: {ex.Message}\n{ex.StackTrace}\n");
+                return; 
             }
         }
 
-        private void DownloadImages(List<YouTubers> youtubers, string outputDir)
+        private string RenderTemplate(string templateName, object data, string basePath)
+        {
+            string path = Path.Combine(basePath, $"{templateName}.hbs");
+            if (!File.Exists(path)) throw new FileNotFoundException($"No se encontró la plantilla en {path}");
+            string content = File.ReadAllText(path);
+            var template = Handlebars.Compile(content);
+            return template(data);
+        }
+
+        private void DownloadImages(List<YouTubers> youtubers, string outputDir) 
         {
             foreach (var yt in youtubers)
             {
@@ -113,19 +128,13 @@ namespace MyWebsite.Application.Servicios
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Error descargando imagen: {ex.Message}");
-                        File.AppendAllText("log.txt", ex.ToString());
+                        var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+                        Directory.CreateDirectory(logDir);
+                        var logPath = Path.Combine(logDir, "log.txt");
+                        File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {ex.Message}\n{ex.StackTrace}\n");
                     }
                 }
             }
-        }
-
-        private string RenderTemplate(string templateName, object data)
-        {
-            string path = $"Templates/{templateName}.hbs";
-            if (!File.Exists(path)) throw new FileNotFoundException(path);
-            string content = File.ReadAllText(path);
-            var template = Handlebars.Compile(content);
-            return template(data);
         }
 
         private string GetCssContent()
