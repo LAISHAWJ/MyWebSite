@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyWebsite.Application.Servicios;
-using MyWebsite.Application.Validators;
 using MyWebsite.Core.Entidades;
 using MyWebsite.Core.Interfaces;
 using MyWebsite.Infrastructure.Repositories;
@@ -63,8 +61,5 @@ class Program
 
         // Registro del servicio
         services.AddSingleton<IGeneratorService, GeneratorService>();
-
-        // Registro del validador
-        services.AddSingleton<IValidator<PersonalInfo>, PersonalInfoValidator>();
     }
 }

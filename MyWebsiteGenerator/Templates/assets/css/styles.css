@@ -297,3 +297,63 @@ p {
         max-width: 90%;
     }
 }
+
+/* ===== Contacto y Redes Sociales ===== */
+.contact-btn {
+    background: #c7889f; /* Rosa oscuro */
+    border: none;
+    font-weight: 600;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+    .contact-btn:hover {
+        background: #a8657d; /* Rosa más oscuro al pasar el ratón */
+        color: white;
+    }
+
+/* Contenedor de la TARJETA COMPLETA (Icono + Nombre) */
+.social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a8657d; /* Color del texto para el nombre de la red */
+    max-width: 90px; /* Limita el ancho de cada tarjeta */
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+    .social-card:hover {
+        transform: translateY(-5px);
+        opacity: 0.9;
+        color: #c7889f; /* Mantenemos el color del texto similar al hover del botón */
+    }
+
+/* Estilo del CÍRCULO del Icono */
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; /* Tamaño del círculo más grande */
+    height: 60px;
+    background: #d395d8; /* Color de fondo pastel */
+    border-radius: 50%;
+    transition: background 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra para resaltar */
+}
+
+    /* Estilo del SVG dentro del icono */
+    .social-icon svg {
+        width: 30px; /* Tamaño del icono SVG dentro del círculo */
+        height: 30px;
+        fill: white; /* Color del icono */
+    }
+
+/* Estilo del Nombre de la Red */
+.social-name {
+    font-size: 0.85rem; /* Letra pequeña para el nombre */
+    font-weight: 600;
+}
+
+

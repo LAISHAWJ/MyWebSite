@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using HandlebarsDotNet;
+﻿using HandlebarsDotNet;
 using MyWebsite.Core.Entidades;
 using MyWebsite.Core.Interfaces;
 using Newtonsoft.Json;
@@ -19,7 +18,7 @@ namespace MyWebsite.Application.Servicios
         private readonly IYouTuberRepository _youTuberRepo;
         private readonly ISerieRepository _serieRepo;
         private readonly ISocialLinkRepository _socialLinkRepo;
-        private readonly IValidator<PersonalInfo> _personalValidator;
+
         private readonly HttpClient _httpClient = new HttpClient();
 
         public GeneratorService(
@@ -28,8 +27,8 @@ namespace MyWebsite.Application.Servicios
             IHobbyRepository hobbyRepo,
             IYouTuberRepository youTuberRepo,
             ISerieRepository serieRepo,
-            ISocialLinkRepository socialLinkRepo,
-            IValidator<PersonalInfo> personalValidator)
+            ISocialLinkRepository socialLinkRepo)
+           
         {
             _personalRepo = personalRepo ?? throw new ArgumentNullException(nameof(personalRepo));
             _genealogyRepo = genealogyRepo ?? throw new ArgumentNullException(nameof(genealogyRepo));
@@ -37,7 +36,7 @@ namespace MyWebsite.Application.Servicios
             _youTuberRepo = youTuberRepo ?? throw new ArgumentNullException(nameof(youTuberRepo));
             _serieRepo = serieRepo ?? throw new ArgumentNullException(nameof(serieRepo));
             _socialLinkRepo = socialLinkRepo ?? throw new ArgumentNullException(nameof(socialLinkRepo));
-            _personalValidator = personalValidator ?? throw new ArgumentNullException(nameof(personalValidator));
+            
         }
 
         public void GenerateWebsite(string outputDir)

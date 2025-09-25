@@ -30,39 +30,25 @@
         });
     }
 
-    // 3. Validación simple del formulario de contacto.
-    const forms = document.querySelectorAll('form.needs-validation');
-    forms.forEach(form => {
+    // 3. Validación y simulación del formulario de contacto (USANDO VALIDACIÓN DE BOOTSTRAP)
+    const form = document.querySelector('.needs-validation');
+    if (form) {
         form.addEventListener('submit', function (e) {
-            const name = form.querySelector('#name');
-            const email = form.querySelector('#email');
-            const message = form.querySelector('#message');
+            e.preventDefault(); // Detener el envío por defecto
+            e.stopPropagation(); // Detener la propagación del evento
 
-            if (!name || !email || !message) {
+            if (form.checkValidity() === false) {
+                // Si la validación falla (campos required vacíos o email inválido)
+                form.classList.add('was-validated');
                 return;
             }
 
-            let isValid = true;
-            if (name.value.trim() === '' || email.value.trim() === '' || message.value.trim() === '') {
-                isValid = false;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email.value.trim())) {
-                alert('Por favor, ingresa un correo electrónico válido.');
-                e.preventDefault();
-                return;
-            }
-
-            if (!isValid) {
-                alert('Por favor, completa todos los campos obligatorios.');
-                e.preventDefault();
-            } else {
-                alert('Mensaje enviado (simulación). ¡Gracias!');
-                e.preventDefault();
-            }
-        });
-    });
+            // Si la validación es exitosa, hacemos la simulación
+            alert('Mensaje enviado (simulación). ¡Gracias por tu mensaje!');
+            form.reset(); // Limpia los campos
+            form.classList.remove('was-validated'); // Quita las clases de validación
+        }, false);
+    }
 
     // 4. Manejo de errores de carga de imágenes.
     document.querySelectorAll('img').forEach(img => {
