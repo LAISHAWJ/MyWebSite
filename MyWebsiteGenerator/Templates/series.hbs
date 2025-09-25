@@ -14,16 +14,51 @@
     {{> navigation}}
 
     <div class="container">
-        <h1>Series</h1>
+        <h1 class="text-center my-4">Series Favoritas</h1>
         <div class="row">
             {{#each Series}}
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <h3>{{this.Nombre}}</h3>
-                    <p>{{this.Descripcion}}</p>
+            <div class="col-6 col-md-4 col-lg-3 mb-4">
+                <div class="card series-thumb"
+                     data-bs-toggle="modal"
+                     data-bs-target="#detailModal"
+                     data-nombre="{{this.Nombre}}"
+                     data-descripcion="{{this.Descripcion}}"
+                     data-caratula="{{this.CaratulaUrl}}"
+                     data-trailer-url="{{this.TrailerUrl}}">
+
+                    <img src="{{this.CaratulaUrl}}" alt="Carátula de {{this.Nombre}}" class="thumb-img">
+
                 </div>
             </div>
             {{/each}}
+        </div>
+    </div>
+
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Detalle de la Serie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex flex-column flex-md-row series-detail-card">
+                        <div class="series-detail-caratula">
+                            <img id="detailCaratula" src="" alt="Carátula" class="img-fluid series-img">
+                        </div>
+
+                        <div class="series-detail-info p-4 flex-grow-1">
+                            <h6 class="mb-2">Descripción:</h6>
+                            <p id="detailDescription" class="card-text mb-3"></p>
+
+                            <h6 class="mt-4 mb-2">Trailer:</h6>
+                            <div class="ratio ratio-16x9 trailer-container">
+                                <iframe id="youtubeIframe" src="" title="Trailer de la serie" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

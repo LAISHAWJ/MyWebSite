@@ -187,3 +187,113 @@ p {
     .toggle-description-btn:hover {
         background: #a8657d;
     }
+
+
+/* ===== Estilos para la miniatura de la serie ===== */
+.series-thumb {
+    cursor: pointer;
+    overflow: hidden;
+    border: none; /* Elimina el borde de la tarjeta */
+    border-radius: 0; /* Elimina los bordes redondeados */
+    background: transparent; /* Hace el fondo transparente */
+    padding: 0; /* Elimina cualquier padding interno */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Mantenemos una ligera sombra para el efecto 3D */
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%; /* Asegura que la tarjeta use todo el espacio de la columna */
+}
+
+    .series-thumb:hover {
+        transform: translateY(-5px); /* Pequeño desplazamiento */
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+.thumb-img {
+    width: 100%; /* La imagen ocupa el 100% del ancho de la tarjeta */
+    height: 100%; /* La imagen ocupa el 100% de la altura de la tarjeta */
+    object-fit: cover;
+    display: block; /* Elimina el espacio extra debajo de las imágenes */
+    border-radius: 0; /* Elimina los bordes redondeados de la imagen */
+}
+
+/* ===== Estilos para el Modal de Detalle (Rectangular) - SIN CAMBIOS SIGNIFICATIVOS ===== */
+
+/* Contenedor del detalle dentro del modal */
+.series-detail-card {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ajustar el tamaño del modal-dialog para controlar la altura */
+#detailModal .modal-dialog {
+    max-width: 900px;
+    max-height: 85vh;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+}
+
+#detailModal .modal-content {
+    height: 100%;
+    overflow: hidden;
+}
+
+#detailModal .modal-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Carátula Lateral (lado izquierdo del modal) */
+.series-detail-caratula {
+    width: 35%;
+    flex-shrink: 0;
+    overflow: hidden;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .series-detail-caratula .series-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Mantiene esta propiedad para que la imagen se vea completa en el modal */
+    }
+
+/* Información y Trailer (lado derecho del modal) */
+.series-detail-info {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.trailer-container {
+    max-width: 100%;
+    margin-top: auto;
+}
+
+/* Media Query para móviles: apila la carátula y la info */
+@media (max-width: 767px) {
+    .series-detail-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .series-detail-caratula,
+    .series-detail-info {
+        width: 100%;
+    }
+
+    .series-detail-caratula {
+        max-height: 300px;
+    }
+
+    .series-detail-info {
+        padding: 15px !important;
+    }
+
+    .trailer-container {
+        max-width: 90%;
+    }
+}

@@ -114,4 +114,54 @@
         });
     })
 
+
+    // --- LÓGICA PARA EL MODAL DE DETALLE DE SERIES ---
+    const detailModal = document.getElementById('detailModal');
+    if (detailModal) {
+        detailModal.addEventListener('show.bs.modal', event => {
+            const cardElement = event.relatedTarget; // La miniatura que se hizo clic
+
+            // 1. Obtener datos del data-* attributes de la miniatura
+            const nombre = cardElement.getAttribute('data-nombre');
+            const descripcion = cardElement.getAttribute('data-descripcion');
+            const caratulaUrl = cardElement.getAttribute('data-caratula');
+            const trailerUrl = cardElement.getAttribute('data-trailer-url');
+
+            // 2. Referencias a los elementos del modal
+            const modalTitle = document.getElementById('detailModalLabel');
+            const detailCaratula = document.getElementById('detailCaratula');
+            const detailDescription = document.getElementById('detailDescription');
+            const youtubeIframe = document.getElementById('youtubeIframe');
+
+            // 3. Llenar el modal
+            modalTitle.textContent = nombre;
+            detailCaratula.src = caratulaUrl;
+            detailDescription.textContent = descripcion;
+
+            // 4. Cargar el trailer de YouTube
+            function getYouTubeId(url) {
+                // Regex para extraer el ID de URL de YouTube (funciona con watch?v= y youtu.be/)
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
+            }
+
+            const videoId = getYouTubeId(trailerUrl);
+
+            if (videoId) {
+                // Formato de URL de YouTube para incrustar (autoplay=1)
+                youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            } else {
+                youtubeIframe.src = ""; // Limpiar si la URL es inválida
+            }
+        });
+
+        // 5. Detener el video al cerrar el modal 
+        detailModal.addEventListener('hide.bs.modal', () => {
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            youtubeIframe.src = ""; // Esto detiene la reproducción del video y lo limpia
+        });
+    }
+
+
 });
