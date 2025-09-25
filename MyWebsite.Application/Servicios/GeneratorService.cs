@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using HandlebarsDotNet;
+﻿using HandlebarsDotNet;
 using MyWebsite.Core.Entidades;
 using MyWebsite.Core.Interfaces;
 using Newtonsoft.Json;
@@ -19,7 +18,7 @@ namespace MyWebsite.Application.Servicios
         private readonly IYouTuberRepository _youTuberRepo;
         private readonly ISerieRepository _serieRepo;
         private readonly ISocialLinkRepository _socialLinkRepo;
-        private readonly IValidator<PersonalInfo> _personalValidator;
+
         private readonly HttpClient _httpClient = new HttpClient();
 
         public GeneratorService(
@@ -28,8 +27,8 @@ namespace MyWebsite.Application.Servicios
             IHobbyRepository hobbyRepo,
             IYouTuberRepository youTuberRepo,
             ISerieRepository serieRepo,
-            ISocialLinkRepository socialLinkRepo,
-            IValidator<PersonalInfo> personalValidator)
+            ISocialLinkRepository socialLinkRepo)
+           
         {
             _personalRepo = personalRepo ?? throw new ArgumentNullException(nameof(personalRepo));
             _genealogyRepo = genealogyRepo ?? throw new ArgumentNullException(nameof(genealogyRepo));
@@ -37,13 +36,14 @@ namespace MyWebsite.Application.Servicios
             _youTuberRepo = youTuberRepo ?? throw new ArgumentNullException(nameof(youTuberRepo));
             _serieRepo = serieRepo ?? throw new ArgumentNullException(nameof(serieRepo));
             _socialLinkRepo = socialLinkRepo ?? throw new ArgumentNullException(nameof(socialLinkRepo));
-            _personalValidator = personalValidator ?? throw new ArgumentNullException(nameof(personalValidator));
+            
         }
 
         public void GenerateWebsite(string outputDir)
         {
             try
             {
+                // Crear estructura de carpetas de salida
                 Directory.CreateDirectory(outputDir);
                 Directory.CreateDirectory(Path.Combine(outputDir, "pages"));
                 Directory.CreateDirectory(Path.Combine(outputDir, "assets/css"));
@@ -51,27 +51,24 @@ namespace MyWebsite.Application.Servicios
                 Directory.CreateDirectory(Path.Combine(outputDir, "assets/js"));
                 Directory.CreateDirectory(Path.Combine(outputDir, "data"));
 
-                // Depuración de la ruta base
+                // Buscar templates
                 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                Console.WriteLine($"Directorio de ejecución: {baseDir}");
-                string basePath = Path.Combine(baseDir, "Templates"); // Intenta primero la ruta de salida
+                string basePath = Path.Combine(baseDir, "Templates");
                 if (!Directory.Exists(basePath))
                 {
-                    Console.WriteLine($"Templates no encontrado en {basePath}. Intentando ruta relativa...");
                     basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\MyWebsiteGenerator\Templates");
-                    Console.WriteLine($"Nueva ruta tentativa: {basePath}");
                 }
 
-                // Verificar si la carpeta existe
                 if (!Directory.Exists(basePath))
                 {
                     throw new DirectoryNotFoundException($"La carpeta de templates no se encontró en {basePath}. Asegúrate de que 'Templates' esté en el proyecto y configurada para copiarse.");
                 }
 
+                // Registrar navegación como parcial
                 Handlebars.RegisterTemplate("navigation", File.ReadAllText(Path.Combine(basePath, "navigation.hbs")));
 
+                // Obtener datos
                 var personalList = _personalRepo.GetAll();
-                Console.WriteLine($"Personal count: {personalList.Count()}"); // Depuración
                 var personal = personalList.FirstOrDefault() ?? throw new Exception("No personal info found");
 
                 var genealogy = _genealogyRepo.GetAll();
@@ -80,13 +77,55 @@ namespace MyWebsite.Application.Servicios
                 var series = _serieRepo.GetAll();
                 var socialLinks = _socialLinkRepo.GetAll();
 
-                DownloadImages(youtubers, outputDir);
+                // Procesa la foto de perfil si es una ruta local
+                if (!string.IsNullOrEmpty(personal.FotoUrl) && !personal.FotoUrl.StartsWith("http"))
+                {
+                    try
+                    {
+                        // Construir la ruta completa desde Templates/assets/img
+                        string fileName = Path.GetFileName(personal.FotoUrl);
+                        string sourcePath = Path.Combine(basePath, "assets", "img", fileName);
+                        string destPath = Path.Combine(outputDir, "assets", "img", fileName);
 
-                var dataAbout = new { personal.Nombre, personal.Apellido, personal.FechaNacimiento, Genealogy = genealogy, isAbout = true };
+                        if (File.Exists(sourcePath))
+                        {
+                            File.Copy(sourcePath, destPath, true);
+
+                            // Ruta relativa para el HTML
+                            personal.FotoUrl = $"../assets/img/{fileName}";
+                        }
+                        else
+                        {
+
+                            personal.FotoUrl = ""; //imagen por defecto
+                        }
+                    }
+                    catch
+                    {
+                        // Ignorar errores aquí para que no bloquee la generación
+                        personal.FotoUrl = "";
+                    }
+                }
+
+                    // Descargar imágenes de Youtubers
+                    DownloadImages(youtubers, outputDir);
+
+                // Generar páginas
+                var dataAbout = new { personal.Nombre, personal.Apellido, personal.FechaNacimiento, personal.FotoUrl, Genealogy = genealogy, isAbout = true };
                 File.WriteAllText(Path.Combine(outputDir, "pages/about.html"), RenderTemplate("about", dataAbout, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/about.json"), JsonConvert.SerializeObject(dataAbout));
 
-                var dataHobbies = new { Hobbies = hobbies.Select(h => new { h.ID, h.Nombre, h.Descripcion, Imagenes = JsonConvert.DeserializeObject<List<string>>(h.Imagenes) }), isHobbies = true };
+                var dataHobbies = new
+                {
+                    Hobbies = hobbies.Select(h => new
+                    {
+                        h.ID,
+                        h.Nombre,
+                        h.Descripcion,
+                        Imagenes = JsonConvert.DeserializeObject<List<string>>(h.Imagenes)
+                    }),
+                    isHobbies = true
+                };
                 File.WriteAllText(Path.Combine(outputDir, "pages/hobbies.html"), RenderTemplate("hobbies", dataHobbies, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/hobbies.json"), JsonConvert.SerializeObject(dataHobbies));
 
@@ -102,22 +141,25 @@ namespace MyWebsite.Application.Servicios
                 File.WriteAllText(Path.Combine(outputDir, "pages/contact.html"), RenderTemplate("contact", dataContact, basePath));
                 File.WriteAllText(Path.Combine(outputDir, "data/contact.json"), JsonConvert.SerializeObject(dataContact));
 
-                File.WriteAllText(Path.Combine(outputDir, "assets/css/styles.css"), GetCssContent());
-                File.WriteAllText(Path.Combine(outputDir, "assets/js/main.js"), GetJsContent());
+                // Copiar CSS y JS desde Templates/assets a outputDir/assets
+                CopyStaticAssets(basePath, outputDir);
             }
             catch (Exception ex)
             {
                 var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
                 Directory.CreateDirectory(logDir);
                 var logPath = Path.Combine(logDir, "log.txt");
-                var currentDateTime = DateTime.Now; // 05:03 AM AST, 24 Sep 2025
-                Console.WriteLine($"Error bonituu a las {currentDateTime:HH:mm:ss} el {currentDateTime:dd/MM/yyyy}: {ex.Message}");
+                var currentDateTime = DateTime.Now;
+                Console.WriteLine($"Error a las {currentDateTime:HH:mm:ss} el {currentDateTime:dd/MM/yyyy}: {ex.Message}");
                 File.AppendAllText(logPath, $"{currentDateTime:yyyy-MM-dd HH:mm:ss}: {ex.Message}\n{ex.StackTrace}\n");
             }
         }
 
         private void DownloadImages(List<YouTubers> youtubers, string outputDir)
         {
+            var imgDir = Path.Combine(outputDir, "assets", "img");
+            Directory.CreateDirectory(imgDir);
+
             foreach (var yt in youtubers)
             {
                 if (!string.IsNullOrEmpty(yt.LogoUrl))
@@ -126,21 +168,41 @@ namespace MyWebsite.Application.Servicios
                     {
                         var bytes = _httpClient.GetByteArrayAsync(yt.LogoUrl).Result;
                         var fileName = Path.GetFileName(new Uri(yt.LogoUrl).LocalPath);
-                        var imgPath = Path.Combine(outputDir, "assets/img", fileName);
+
+                        // Asegurar extensión
+                        if (string.IsNullOrWhiteSpace(Path.GetExtension(fileName)))
+                        {
+                            fileName += ".jpg";
+                        }
+
+                        var imgPath = Path.Combine(imgDir, fileName);
                         File.WriteAllBytes(imgPath, bytes);
-                        yt.LogoUrl = $"/assets/img/{fileName}";
+
+                        // Actualizamos la ruta para que el HTML use la copia local
+                        yt.LogoUrl = $"../assets/img/{fileName}";
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error descargando imagen: {ex.Message}");
+                        Console.WriteLine($"Error descargando imagen: {yt.NombreCanal} -> {ex.Message}");
+
+                        // fallback a un placeholder
+                        yt.LogoUrl = "/assets/img/placeholder.png";
+
+                        // log de error
                         var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
                         Directory.CreateDirectory(logDir);
                         var logPath = Path.Combine(logDir, "log.txt");
-                        File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {ex.Message}\n{ex.StackTrace}\n");
+                        File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: Error {yt.NombreCanal} -> {ex.Message}\n{ex.StackTrace}\n");
                     }
+                }
+                else
+                {
+                    // Si no tiene logo asignado, usar placeholder
+                    yt.LogoUrl = "/assets/img/placeholder.png";
                 }
             }
         }
+
 
         private string RenderTemplate(string templateName, object data, string basePath)
         {
@@ -151,96 +213,27 @@ namespace MyWebsite.Application.Servicios
             return template(data);
         }
 
-        private string GetCssContent()
+        private void CopyStaticAssets(string basePath, string outputDir)
         {
-            return @"
-                /* Bootstrap CDN ya incluido en head */
-                 body {
-                font-family: 'Roboto', sans-serif;
-                  background-color: #f0f4f8;
-                    color: #333;
-                margin: 0;
-                padding: 0;
+            string sourceAssets = Path.Combine(basePath, "assets");
+            string targetAssets = Path.Combine(outputDir, "assets");
+
+            if (Directory.Exists(sourceAssets))
+            {
+                foreach (string dirPath in Directory.GetDirectories(sourceAssets, "*", SearchOption.AllDirectories))
+                {
+                    Directory.CreateDirectory(dirPath.Replace(sourceAssets, targetAssets));
                 }
 
-                .navbar {
-                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    }
-
-                .nav-link {
-                font-size: 1rem;
-                padding: 0.5rem 1rem;
-                transition: background-color 0.3s, color 0.3s;
+                foreach (string newPath in Directory.GetFiles(sourceAssets, "*.*", SearchOption.AllDirectories))
+                {
+                    File.Copy(newPath, newPath.Replace(sourceAssets, targetAssets), true);
                 }
-
-                .nav-link:hover {
-                background-color: rgba(255, 255, 255, 0.1);
-                }
-
-                .nav-link.active {
-                background-color: #ffc107;
-                color: #333 !important;
-                border-radius: 5px;
-                }
-
-                .container {
-                max-width: 1200px;
-                margin: 20px auto;
-                padding: 20px;
-                background: #fff;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                }
-
-                h1, h2 {
-                color: #007bff;
-                }
-
-                .timeline-item {
-                transition: transform 0.3s;
-                }
-
-                .timeline-item:hover {
-                transform: scale(1.05);
-                }
-
-                .gallery img {
-                border: 2px solid #ddd;
-                border-radius: 5px;
-                transition: transform 0.3s;
-                }
-
-                .gallery img:hover {
-                transform: scale(1.1);
-                }
-
-                /* Responsivo */
-                @media (max-width: 768px) {
-                .gallery img {
-                    width: 100%;
-                }
-             }
-             ";
-        }
-
-        private string GetJsContent()
-        {
-            return @"
-                function validateForm() {
-                    var name = document.getElementById('name').value;
-                    var email = document.getElementById('email').value;
-                    var message = document.getElementById('message').value;
-                    if (!name || !email || !message) { alert('Campos obligatorios'); return false; }
-                    if (!email.includes('@')) { alert('Correo inválido'); return false; }
-                    alert('Enviado (simulación)'); return false;
-                }
-
-                document.addEventListener('DOMContentLoaded', function() {
-                    document.querySelectorAll('.timeline-item').forEach(item => {
-                        item.addEventListener('click', () => item.style.backgroundColor = item.style.backgroundColor === 'lightblue' ? '' : 'lightblue');
-                    });
-                });
-            ";
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron assets en Templates/assets. Asegúrate de tener styles.css y main.js ahí.");
+            }
         }
     }
 }

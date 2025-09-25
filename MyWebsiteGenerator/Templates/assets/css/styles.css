@@ -1,0 +1,359 @@
+﻿/* ===== Reset y base ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fdf6f7; /* Rosa muy claro */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    background: linear-gradient(90deg, #d395d8, #e0b4c8); /* Degradado pastel */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+    .nav-link:hover {
+        background: rgba(255,255,255,0.25);
+        border-radius: 8px;
+    }
+
+    .nav-link.active {
+        background: #e0b4c8;
+        color: #fff !important;
+        border-radius: 8px;
+    }
+
+/* ===== Contenedor principal ===== */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* ===== Secciones de la página "Sobre mí" ===== */
+.profile-hero {
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 5px solid #e0b4c8;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.genealogy-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid #d395d8;
+}
+
+h1, h2, h3 {
+    color: #c7889f; /* Rosa oscuro */
+    font-weight: 600;
+}
+
+p {
+    color: #666;
+}
+
+/* ===== Línea de tiempo moderna ===== */
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    width: 2px;
+    background-color: #e0b4c8;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-item-modern {
+    position: relative;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: transparent;
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #c7889f;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    z-index: 10;
+}
+
+.timeline-item-modern:nth-child(odd) .timeline-content {
+    text-align: right;
+    margin-right: 50%;
+}
+
+.timeline-item-modern:nth-child(even) .timeline-content {
+    text-align: left;
+    margin-left: 50%;
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+.selected-item {
+    background: #fdf6f7;
+    box-shadow: 0 4px 15px rgba(224, 180, 200, 0.5);
+    border: 2px solid #c7889f;
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* ===== Tarjetas de YouTubers ===== */
+.channel-logo {
+    max-height: 120px;
+    width: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e0b4c8;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.channel-link {
+    color: #c7889f;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .channel-link:hover {
+        color: #a8657d;
+        text-decoration: underline;
+    }
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+/* ===== Botón descripción ===== */
+.toggle-description-btn {
+    background: #c7889f;
+    border: none;
+    font-weight: 500;
+}
+
+    .toggle-description-btn:hover {
+        background: #a8657d;
+    }
+
+
+/* ===== Estilos para la miniatura de la serie ===== */
+.series-thumb {
+    cursor: pointer;
+    overflow: hidden;
+    border: none; /* Elimina el borde de la tarjeta */
+    border-radius: 0; /* Elimina los bordes redondeados */
+    background: transparent; /* Hace el fondo transparente */
+    padding: 0; /* Elimina cualquier padding interno */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Mantenemos una ligera sombra para el efecto 3D */
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%; /* Asegura que la tarjeta use todo el espacio de la columna */
+}
+
+    .series-thumb:hover {
+        transform: translateY(-5px); /* Pequeño desplazamiento */
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+.thumb-img {
+    width: 100%; /* La imagen ocupa el 100% del ancho de la tarjeta */
+    height: 100%; /* La imagen ocupa el 100% de la altura de la tarjeta */
+    object-fit: cover;
+    display: block; /* Elimina el espacio extra debajo de las imágenes */
+    border-radius: 0; /* Elimina los bordes redondeados de la imagen */
+}
+
+/* ===== Estilos para el Modal de Detalle (Rectangular) - SIN CAMBIOS SIGNIFICATIVOS ===== */
+
+/* Contenedor del detalle dentro del modal */
+.series-detail-card {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ajustar el tamaño del modal-dialog para controlar la altura */
+#detailModal .modal-dialog {
+    max-width: 900px;
+    max-height: 85vh;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+}
+
+#detailModal .modal-content {
+    height: 100%;
+    overflow: hidden;
+}
+
+#detailModal .modal-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Carátula Lateral (lado izquierdo del modal) */
+.series-detail-caratula {
+    width: 35%;
+    flex-shrink: 0;
+    overflow: hidden;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .series-detail-caratula .series-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Mantiene esta propiedad para que la imagen se vea completa en el modal */
+    }
+
+/* Información y Trailer (lado derecho del modal) */
+.series-detail-info {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.trailer-container {
+    max-width: 100%;
+    margin-top: auto;
+}
+
+/* Media Query para móviles: apila la carátula y la info */
+@media (max-width: 767px) {
+    .series-detail-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .series-detail-caratula,
+    .series-detail-info {
+        width: 100%;
+    }
+
+    .series-detail-caratula {
+        max-height: 300px;
+    }
+
+    .series-detail-info {
+        padding: 15px !important;
+    }
+
+    .trailer-container {
+        max-width: 90%;
+    }
+}
+
+/* ===== Contacto y Redes Sociales ===== */
+.contact-btn {
+    background: #c7889f; /* Rosa oscuro */
+    border: none;
+    font-weight: 600;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+    .contact-btn:hover {
+        background: #a8657d; /* Rosa más oscuro al pasar el ratón */
+        color: white;
+    }
+
+/* Contenedor de la TARJETA COMPLETA (Icono + Nombre) */
+.social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a8657d; /* Color del texto para el nombre de la red */
+    max-width: 90px; /* Limita el ancho de cada tarjeta */
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+    .social-card:hover {
+        transform: translateY(-5px);
+        opacity: 0.9;
+        color: #c7889f; /* Mantenemos el color del texto similar al hover del botón */
+    }
+
+/* Estilo del CÍRCULO del Icono */
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; /* Tamaño del círculo más grande */
+    height: 60px;
+    background: #d395d8; /* Color de fondo pastel */
+    border-radius: 50%;
+    transition: background 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra para resaltar */
+}
+
+    /* Estilo del SVG dentro del icono */
+    .social-icon svg {
+        width: 30px; /* Tamaño del icono SVG dentro del círculo */
+        height: 30px;
+        fill: white; /* Color del icono */
+    }
+
+/* Estilo del Nombre de la Red */
+.social-name {
+    font-size: 0.85rem; /* Letra pequeña para el nombre */
+    font-weight: 600;
+}
+
+
