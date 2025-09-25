@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyWebsite.Core.Entidades
 {
-     public class YouTubers
+    public class YouTubers
     {
         public int ID { get; set; }
         public string NombreCanal { get; set; }
         public string Descripcion { get; set; }
         public string LogoUrl { get; set; }
+        public string CanalUrl { get; set; } 
     }
 }

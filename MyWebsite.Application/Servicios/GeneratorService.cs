@@ -81,23 +81,35 @@ namespace MyWebsite.Application.Servicios
                 // Procesa la foto de perfil si es una ruta local
                 if (!string.IsNullOrEmpty(personal.FotoUrl) && !personal.FotoUrl.StartsWith("http"))
                 {
-                    var sourcePath = Path.Combine(basePath, personal.FotoUrl.Replace('/', Path.DirectorySeparatorChar));
-                    var fileName = Path.GetFileName(sourcePath);
-                    var destPath = Path.Combine(outputDir, "assets/img", fileName);
+                    try
+                    {
+                        // Construir la ruta completa desde Templates/assets/img
+                        string fileName = Path.GetFileName(personal.FotoUrl);
+                        string sourcePath = Path.Combine(basePath, "assets", "img", fileName);
+                        string destPath = Path.Combine(outputDir, "assets", "img", fileName);
 
-                    if (File.Exists(sourcePath))
-                    {
-                        File.Copy(sourcePath, destPath, true);
-                        personal.FotoUrl = $"../assets/img/{fileName}";
+                        if (File.Exists(sourcePath))
+                        {
+                            File.Copy(sourcePath, destPath, true);
+
+                            // Ruta relativa para el HTML
+                            personal.FotoUrl = $"../assets/img/{fileName}";
+                        }
+                        else
+                        {
+
+                            personal.FotoUrl = ""; //imagen por defecto
+                        }
                     }
-                    else
+                    catch
                     {
-                        Console.WriteLine($"Advertencia: La foto de perfil local no se encontró en {sourcePath}");
+                        // Ignorar errores aquí para que no bloquee la generación
+                        personal.FotoUrl = "";
                     }
                 }
 
-                // Descargar imágenes de Youtubers
-                DownloadImages(youtubers, outputDir);
+                    // Descargar imágenes de Youtubers
+                    DownloadImages(youtubers, outputDir);
 
                 // Generar páginas
                 var dataAbout = new { personal.Nombre, personal.Apellido, personal.FechaNacimiento, personal.FotoUrl, Genealogy = genealogy, isAbout = true };
@@ -146,6 +158,9 @@ namespace MyWebsite.Application.Servicios
 
         private void DownloadImages(List<YouTubers> youtubers, string outputDir)
         {
+            var imgDir = Path.Combine(outputDir, "assets", "img");
+            Directory.CreateDirectory(imgDir);
+
             foreach (var yt in youtubers)
             {
                 if (!string.IsNullOrEmpty(yt.LogoUrl))
@@ -154,21 +169,41 @@ namespace MyWebsite.Application.Servicios
                     {
                         var bytes = _httpClient.GetByteArrayAsync(yt.LogoUrl).Result;
                         var fileName = Path.GetFileName(new Uri(yt.LogoUrl).LocalPath);
-                        var imgPath = Path.Combine(outputDir, "assets/img", fileName);
+
+                        // Asegurar extensión
+                        if (string.IsNullOrWhiteSpace(Path.GetExtension(fileName)))
+                        {
+                            fileName += ".jpg";
+                        }
+
+                        var imgPath = Path.Combine(imgDir, fileName);
                         File.WriteAllBytes(imgPath, bytes);
-                        yt.LogoUrl = $"/assets/img/{fileName}";
+
+                        // Actualizamos la ruta para que el HTML use la copia local
+                        yt.LogoUrl = $"../assets/img/{fileName}";
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error descargando imagen: {ex.Message}");
+                        Console.WriteLine($"Error descargando imagen: {yt.NombreCanal} -> {ex.Message}");
+
+                        // fallback a un placeholder
+                        yt.LogoUrl = "/assets/img/placeholder.png";
+
+                        // log de error
                         var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
                         Directory.CreateDirectory(logDir);
                         var logPath = Path.Combine(logDir, "log.txt");
-                        File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {ex.Message}\n{ex.StackTrace}\n");
+                        File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: Error {yt.NombreCanal} -> {ex.Message}\n{ex.StackTrace}\n");
                     }
+                }
+                else
+                {
+                    // Si no tiene logo asignado, usar placeholder
+                    yt.LogoUrl = "/assets/img/placeholder.png";
                 }
             }
         }
+
 
         private string RenderTemplate(string templateName, object data, string basePath)
         {

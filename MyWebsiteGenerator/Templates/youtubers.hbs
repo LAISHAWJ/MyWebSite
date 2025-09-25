@@ -14,15 +14,31 @@
     {{> navigation}}
 
     <div class="container">
-        <h1>YouTubers</h1>
+        <h1 class="text-center my-4">YouTubers Favoritos</h1>
         <div class="row">
             {{#each YouTubers}}
-            <div class="col-md-4">
-                <div class="card mb-4 text-center">
-                    <img src="{{this.LogoUrl}}" alt="{{this.Nombre}}" class="img-fluid mb-2" style="max-height:150px;">
-                    <h3>{{this.Nombre}}</h3>
-                    <p>{{this.Descripcion}}</p>
-                    <a href="{{this.CanalUrl}}" target="_blank" class="btn">Visitar Canal</a>
+            <div class="col-md-6 col-lg-4 d-flex">
+                <div class="card mb-4 w-100 text-center p-4">
+                    <!-- Logo arriba -->
+                    <img src="{{this.LogoUrl}}" alt="Logo de {{this.NombreCanal}}"
+                         class="img-fluid mb-3 mx-auto channel-logo">
+
+                    <!-- Nombre clickeable -->
+                    <h3 class="card-title">
+                        <a href="{{this.CanalUrl}}" target="_blank" class="channel-link">
+                            {{this.NombreCanal}}
+                        </a>
+                    </h3>
+
+                    <!-- Descripción oculta -->
+                    <div class="description-container d-none mb-3">
+                        <p class="card-text text-muted">{{this.Descripcion}}</p>
+                    </div>
+
+                    <!-- Botón para mostrar descripción -->
+                    <div class="mt-auto">
+                        <button class="btn btn-secondary toggle-description-btn">Ver Descripción</button>
+                    </div>
                 </div>
             </div>
             {{/each}}

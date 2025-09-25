@@ -79,4 +79,39 @@
             item.classList.add('selected-item');
         });
     });
+
+    //Lógica para mostrar/ocultar la galería de hobbies
+    const galleryToggleButtons = document.querySelectorAll('.toggle-gallery-btn');
+    galleryToggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const cardBody = button.closest('.card');
+            const gallery = cardBody.querySelector('.hobby-gallery');
+            if (gallery.classList.contains('visible')) {
+                gallery.classList.remove('visible');
+                button.textContent = 'Ver Galería';
+            } else {
+                gallery.classList.add('visible');
+                button.textContent = 'Ocultar Galería';
+            }
+        });
+    });
+
+
+    //Lógica para mostrar/ocultar la descripción de YouTubers
+    const toggleDescriptionButtons = document.querySelectorAll('.toggle-description-btn');
+    toggleDescriptionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const cardBody = button.closest('.card');
+            const descriptionContainer = cardBody.querySelector('.description-container');
+
+            if (descriptionContainer.classList.contains('d-none')) {
+                descriptionContainer.classList.remove('d-none');
+                button.textContent = 'Ocultar Descripción';
+            } else {
+                descriptionContainer.classList.add('d-none');
+                button.textContent = 'Ver Descripción';
+            }
+        });
+    })
+
 });
