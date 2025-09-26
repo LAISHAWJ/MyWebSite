@@ -1,5 +1,5 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-    // 1. Lógica para el 'highlight' del menú de navegación.
+    //Lógica para el 'highlight' del menú de navegación.
     try {
         const currentPath = window.location.pathname;
         const currentFile = currentPath.split('/').pop();
@@ -15,7 +15,7 @@
         console.error("Error al aplicar highlight en la navegación: ", e);
     }
 
-    // 2. Lógica para mostrar/ocultar la genealogía
+    //Lógica para mostrar/ocultar la genealogía
     const toggleButton = document.getElementById('toggleGenealogy');
     const genealogySection = document.getElementById('genealogySection');
     if (toggleButton && genealogySection) {
@@ -30,7 +30,7 @@
         });
     }
 
-    // 3. Validación y simulación del formulario de contacto (USANDO VALIDACIÓN DE BOOTSTRAP)
+    // Validación y simulación del formulario de contacto (USANDO VALIDACIÓN DE BOOTSTRAP)
     const form = document.querySelector('.needs-validation');
     if (form) {
         form.addEventListener('submit', function (e) {
@@ -44,13 +44,13 @@
             }
 
             // Si la validación es exitosa, hacemos la simulación
-            alert('Mensaje enviado (simulación). ¡Gracias por tu mensaje!');
+            alert('Enviado con éxito. ¡Gracias por tu mensaje!');
             form.reset(); // Limpia los campos
             form.classList.remove('was-validated'); // Quita las clases de validación
         }, false);
     }
 
-    // 4. Manejo de errores de carga de imágenes.
+    //Manejo de errores de carga de imágenes.
     document.querySelectorAll('img').forEach(img => {
         img.addEventListener('error', () => {
             img.src = '../assets/img/placeholder.png';
@@ -58,7 +58,7 @@
         });
     });
 
-    // 5. Lógica de interactividad para la línea de tiempo (opcional)
+    // Lógica de interactividad para la línea de tiempo 
     document.querySelectorAll('.timeline-item-modern').forEach(item => {
         item.addEventListener('click', () => {
             document.querySelectorAll('.timeline-item-modern').forEach(i => i.classList.remove('selected-item'));

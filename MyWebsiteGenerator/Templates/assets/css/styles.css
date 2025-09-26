@@ -8,7 +8,7 @@ body {
     line-height: 1.6;
 }
 
-/* ===== Navbar ===== */
+/* ===== Navegbar ===== */
 .navbar {
     background: linear-gradient(90deg, #d395d8, #e0b4c8); /* Degradado pastel */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -193,13 +193,13 @@ p {
 .series-thumb {
     cursor: pointer;
     overflow: hidden;
-    border: none; /* Elimina el borde de la tarjeta */
-    border-radius: 0; /* Elimina los bordes redondeados */
-    background: transparent; /* Hace el fondo transparente */
+    border: none; 
+    border-radius: 0; 
+    background: transparent; 
     padding: 0; /* Elimina cualquier padding interno */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Mantenemos una ligera sombra para el efecto 3D */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Ligera sombra para el efecto 3D */
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%; /* Asegura que la tarjeta use todo el espacio de la columna */
+    height: 100%; 
 }
 
     .series-thumb:hover {
@@ -212,10 +212,10 @@ p {
     height: 100%; /* La imagen ocupa el 100% de la altura de la tarjeta */
     object-fit: cover;
     display: block; /* Elimina el espacio extra debajo de las imágenes */
-    border-radius: 0; /* Elimina los bordes redondeados de la imagen */
+    border-radius: 0; 
 }
 
-/* ===== Estilos para el Modal de Detalle (Rectangular) - SIN CAMBIOS SIGNIFICATIVOS ===== */
+/* ===== Estilos para el Modal de Detalle (Rectangular)
 
 /* Contenedor del detalle dentro del modal */
 .series-detail-card {
@@ -319,15 +319,15 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #a8657d; /* Color del texto para el nombre de la red */
-    max-width: 90px; /* Limita el ancho de cada tarjeta */
+    color: #a8657d; 
+    max-width: 90px; 
     transition: transform 0.3s, opacity 0.3s;
 }
 
     .social-card:hover {
         transform: translateY(-5px);
         opacity: 0.9;
-        color: #c7889f; /* Mantenemos el color del texto similar al hover del botón */
+        color: #c7889f; 
     }
 
 /* Estilo del CÍRCULO del Icono */
@@ -352,7 +352,7 @@ p {
 
 /* Estilo del Nombre de la Red */
 .social-name {
-    font-size: 0.85rem; /* Letra pequeña para el nombre */
+    font-size: 0.85rem; 
     font-weight: 600;
 }
 

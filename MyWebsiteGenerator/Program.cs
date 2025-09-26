@@ -11,17 +11,16 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Configurar la lectura de appsettings.json
         var builder = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
-        // Configurar el contenedor de inyección de dependencias
+        //  Contenedor de inyección de dependencias
         var services = new ServiceCollection();
         ConfigureServices(services, builder);
 
-        // Usar el proveedor de servicios
+        // Proveedor de servicios
         using (var serviceProvider = services.BuildServiceProvider())
         {
             using (var scope = serviceProvider.CreateScope())
