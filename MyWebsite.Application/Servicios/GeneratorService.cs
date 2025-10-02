@@ -43,7 +43,7 @@ namespace MyWebsite.Application.Servicios
         {
             try
             {
-                // Crear estructura de carpetas de salida
+                // Estructura de carpetas de salida
                 Directory.CreateDirectory(outputDir);
                 Directory.CreateDirectory(Path.Combine(outputDir, "pages"));
                 Directory.CreateDirectory(Path.Combine(outputDir, "assets/css"));
@@ -178,7 +178,7 @@ namespace MyWebsite.Application.Servicios
                         var imgPath = Path.Combine(imgDir, fileName);
                         File.WriteAllBytes(imgPath, bytes);
 
-                        // Actualizamos la ruta para que el HTML use la copia local
+                        // Actualiza la ruta para que el HTML use la copia local
                         yt.LogoUrl = $"../assets/img/{fileName}";
                     }
                     catch (Exception ex)

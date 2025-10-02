@@ -43,9 +43,9 @@
                 return;
             }
 
-            // Si la validación es exitosa, hacemos la simulación
+            // Si la validación es exitosa, hace la simulación
             alert('Enviado con éxito. ¡Gracias por tu mensaje!');
-            form.reset(); // Limpia los campos
+            form.reset(); 
             form.classList.remove('was-validated'); // Quita las clases de validación
         }, false);
     }
@@ -105,26 +105,26 @@
     const detailModal = document.getElementById('detailModal');
     if (detailModal) {
         detailModal.addEventListener('show.bs.modal', event => {
-            const cardElement = event.relatedTarget; // La miniatura que se hizo clic
+            const cardElement = event.relatedTarget; 
 
-            // 1. Obtener datos del data-* attributes de la miniatura
+            // Obtener datos del data-* attributes de la miniatura
             const nombre = cardElement.getAttribute('data-nombre');
             const descripcion = cardElement.getAttribute('data-descripcion');
             const caratulaUrl = cardElement.getAttribute('data-caratula');
             const trailerUrl = cardElement.getAttribute('data-trailer-url');
 
-            // 2. Referencias a los elementos del modal
+            // Referencias a los elementos del modal
             const modalTitle = document.getElementById('detailModalLabel');
             const detailCaratula = document.getElementById('detailCaratula');
             const detailDescription = document.getElementById('detailDescription');
             const youtubeIframe = document.getElementById('youtubeIframe');
 
-            // 3. Llenar el modal
+            // Llenar el modal
             modalTitle.textContent = nombre;
             detailCaratula.src = caratulaUrl;
             detailDescription.textContent = descripcion;
 
-            // 4. Cargar el trailer de YouTube
+            // Cargar el trailer de YouTube
             function getYouTubeId(url) {
                 // Regex para extraer el ID de URL de YouTube (funciona con watch?v= y youtu.be/)
                 const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -142,7 +142,7 @@
             }
         });
 
-        // 5. Detener el video al cerrar el modal 
+        //Detener el video al cerrar el modal 
         detailModal.addEventListener('hide.bs.modal', () => {
             const youtubeIframe = document.getElementById('youtubeIframe');
             youtubeIframe.src = ""; // Esto detiene la reproducción del video y lo limpia

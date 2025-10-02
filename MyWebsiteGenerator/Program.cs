@@ -50,7 +50,7 @@ class Program
     {
         var connectionString = configuration.GetConnectionString("PersonalDb") ?? throw new InvalidOperationException("Connection string 'PersonalDb' not found.");
 
-        // Registro de repositorios con Dapper
+        
         services.AddSingleton<IPersonalInfoRepository>(new PersonalInfoRepository(connectionString));
         services.AddSingleton<IGenealogyRepository>(new GenealogyRepository(connectionString));
         services.AddSingleton<IHobbyRepository>(new HobbyRepository(connectionString));
@@ -58,7 +58,7 @@ class Program
         services.AddSingleton<ISerieRepository>(new SerieRepository(connectionString));
         services.AddSingleton<ISocialLinkRepository>(new SocialLinkRepository(connectionString));
 
-        // Registro del servicio
+        
         services.AddSingleton<IGeneratorService, GeneratorService>();
     }
 }

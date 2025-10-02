@@ -1,7 +1,7 @@
 ﻿/* ===== Reset y base ===== */
 body {
     font-family: 'Poppins', sans-serif;
-    background: #fdf6f7; /* Rosa muy claro */
+    background: #fdf6f7; 
     color: #333;
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ body {
 
 /* ===== Navegbar ===== */
 .navbar {
-    background: linear-gradient(90deg, #d395d8, #e0b4c8); /* Degradado pastel */
+    background: linear-gradient(90deg, #d395d8, #e0b4c8); 
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
@@ -66,7 +66,7 @@ body {
 }
 
 h1, h2, h3 {
-    color: #c7889f; /* Rosa oscuro */
+    color: #c7889f; 
     font-weight: 600;
 }
 
@@ -74,7 +74,7 @@ p {
     color: #666;
 }
 
-/* ===== Línea de tiempo moderna ===== */
+/* ===== Línea de tiempo ===== */
 .timeline-container {
     position: relative;
     max-width: 800px;
@@ -196,26 +196,26 @@ p {
     border: none;
     border-radius: 0;
     background: transparent;
-    padding: 0; /* Elimina cualquier padding interno */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Ligera sombra para el efecto 3D */
+    padding: 0; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
     transition: transform 0.2s, box-shadow 0.2s;
     height: 100%;
 }
 
     .series-thumb:hover {
-        transform: translateY(-5px); /* Pequeño desplazamiento */
+        transform: translateY(-5px); 
         box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
 .thumb-img {
-    width: 100%; /* La imagen ocupa el 100% del ancho de la tarjeta */
-    height: 100%; /* La imagen ocupa el 100% de la altura de la tarjeta */
+    width: 100%; 
+    height: 100%; 
     object-fit: cover;
-    display: block; /* Elimina el espacio extra debajo de las imágenes */
+    display: block; 
     border-radius: 0;
 }
 
-/* ===== Estilos para el Modal de Detalle (Rectangular)
+/* ===== Estilos para el Modal de Detalle
 
 /* Contenedor del detalle dentro del modal */
 .series-detail-card {
@@ -224,7 +224,7 @@ p {
     padding: 0;
 }
 
-/* Ajustar el tamaño del modal-dialog para controlar la altura */
+/* Ajusta el tamaño del modal-dialog para controlar la altura */
 #detailModal .modal-dialog {
     max-width: 900px;
     max-height: 85vh;
@@ -243,7 +243,7 @@ p {
     flex-direction: column;
 }
 
-/* Carátula Lateral (lado izquierdo del modal) */
+/* Carátula Lateral */
 .series-detail-caratula {
     width: 35%;
     flex-shrink: 0;
@@ -257,10 +257,10 @@ p {
     .series-detail-caratula .series-img {
         width: 100%;
         height: 100%;
-        object-fit: contain; /* Mantiene esta propiedad para que la imagen se vea completa en el modal */
+        object-fit: contain;
     }
 
-/* Información y Trailer (lado derecho del modal) */
+/* Información y Trailer */
 .series-detail-info {
     width: 65%;
     display: flex;
@@ -300,7 +300,7 @@ p {
 
 /* ===== Contacto y Redes Sociales ===== */
 .contact-btn {
-    background: #c7889f; /* Rosa oscuro */
+    background: #c7889f; 
     border: none;
     font-weight: 600;
     color: white;
@@ -310,11 +310,11 @@ p {
 }
 
     .contact-btn:hover {
-        background: #a8657d; /* Rosa más oscuro al pasar el ratón */
+        background: #a8657d; 
         color: white;
     }
 
-/* Contenedor de la TARJETA COMPLETA (Icono + Nombre) */
+/* Contenedor de la TARJETA COMPLETA */
 .social-card {
     display: flex;
     flex-direction: column;
@@ -335,19 +335,19 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px; /* Tamaño del círculo más grande */
+    width: 60px; 
     height: 60px;
-    background: #d395d8; /* Color de fondo pastel */
+    background: #d395d8; 
     border-radius: 50%;
     transition: background 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra para resaltar */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
 }
 
     /* Estilo del SVG dentro del icono */
     .social-icon svg {
-        width: 30px; /* Tamaño del icono SVG dentro del círculo */
+        width: 30px; 
         height: 30px;
-        fill: white; /* Color del icono */
+        fill: white; 
     }
 
 /* Estilo del Nombre de la Red */

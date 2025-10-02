@@ -11,6 +11,6 @@ namespace MyWebsite.Core.Entidades
         public int ID { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public string Imagenes { get; set; } // JSON array de URLs
+        public string Imagenes { get; set; } 
     }
 }
